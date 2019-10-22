@@ -115,7 +115,7 @@ defmodule ExMachina.Ecto do
   def params_for(module, factory_name, attrs \\ %{}) do
     factory_name
     |> module.build(attrs)
-    |> recursively_strip
+    |> to_params
   end
 
   @doc """
@@ -208,6 +208,19 @@ defmodule ExMachina.Ecto do
     |> handle_embeds
     |> drop_ecto_fields
     |> drop_fields_with_nil_values
+  end
+
+  @doc false
+  def to_params(record = %{__struct__: _}) do
+    record
+    |> recursively_strip
+  end
+
+  @doc false
+  def to_string_params(record = %{__struct__: _}) do
+    record
+    |> to_params
+    |> convert_atom_keys_to_strings
   end
 
   defp recursively_strip(record), do: record
