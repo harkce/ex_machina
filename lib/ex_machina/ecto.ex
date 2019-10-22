@@ -35,6 +35,10 @@ defmodule ExMachina.Ecto do
         def string_params_with_assocs(factory_name, attrs \\ %{}) do
           ExMachina.Ecto.string_params_with_assocs(__MODULE__, factory_name, attrs)
         end
+
+        defdelegate to_params(record), to: ExMachina.Ecto
+        defdelegate to_string_params(record), to: ExMachina.Ecto
+
       end
     else
       raise ArgumentError,
